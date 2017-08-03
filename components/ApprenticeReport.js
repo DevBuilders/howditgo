@@ -54,54 +54,71 @@ const ApprenticeReport = ({ apprenticeName, data }) => {
       <h2>
         Report for {apprenticeName}
       </h2>
-      <LineChart
-        width={600}
-        height={300}
-        data={ratings}
-        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-      >
-        <XAxis dataKey="name" />
-        <YAxis domain={[0, 10]} />
-        <CartesianGrid strokeDasharray="3 3" />
-        <Tooltip />
-        <Legend />
-        <Line type="monotone" dataKey="rating" stroke="#8884d8" />
-      </LineChart>
+      <div className="reports">
+        <div className="report">
+          <LineChart
+            width={600}
+            height={300}
+            data={ratings}
+            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+          >
+            <XAxis dataKey="name" />
+            <YAxis domain={[0, 10]} />
+            <CartesianGrid strokeDasharray="3 3" />
+            <Tooltip />
+            <Legend />
+            <Line type="monotone" dataKey="rating" stroke="#8884d8" />
+          </LineChart>
+        </div>
 
-      <LineChart
-        width={600}
-        height={300}
-        data={driving}
-        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-      >
-        <XAxis dataKey="name" />
-        <YAxis domain={[0, 100]} />
-        <CartesianGrid strokeDasharray="3 3" />
-        <Tooltip />
-        <Legend />
-        <Line type="monotone" dataKey="driving" stroke="#8884d8" />
-      </LineChart>
+        <div className="report">
+          <LineChart
+            width={600}
+            height={300}
+            data={driving}
+            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+          >
+            <XAxis dataKey="name" />
+            <YAxis domain={[0, 100]} />
+            <CartesianGrid strokeDasharray="3 3" />
+            <Tooltip />
+            <Legend />
+            <Line type="monotone" dataKey="driving" stroke="#8884d8" />
+          </LineChart>
+        </div>
 
-      <BarChart
-        width={600}
-        height={300}
-        data={opinions}
-        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-      >
-        <XAxis dataKey="name" />
-        <YAxis domain={[-1, 1]} />
-        <CartesianGrid strokeDasharray="3 3" />
-        <Tooltip />
-        <Legend />
-        <ReferenceLine y={0} stroke="#000" />
-        <Bar dataKey="engaged" fill="#8884d8" />
-        <Bar dataKey="growth" fill="#82ca9d" />
-        <Bar dataKey="learning" fill="#ffc658" />
-        <Bar dataKey="opinions" fill="#00C49F" />
-      </BarChart>
+        <div className="report">
+          <BarChart
+            width={600}
+            height={300}
+            data={opinions}
+            stackOffset="sign"
+            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+          >
+            <XAxis dataKey="name" />
+            <YAxis domain={[-4, 4]} />
+            <CartesianGrid strokeDasharray="3 3" />
+            <Tooltip />
+            <Legend />
+            <ReferenceLine y={0} stroke="#000" />
+            <Bar stackId="a" dataKey="engaged" fill="#8884d8" />
+            <Bar stackId="a" dataKey="growth" fill="#82ca9d" />
+            <Bar stackId="a" dataKey="learning" fill="#ffc658" />
+            <Bar stackId="a" dataKey="opinions" fill="#00C49F" />
+          </BarChart>
+        </div>
+      </div>
       <style jsx>{`
         h2 {
           text-align: center;
+        }
+        .reports {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          width: 98vw;
+          margin: 1vw;
+          justify-content: center;
         }
       `}</style>
     </div>
