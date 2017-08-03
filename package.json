@@ -1,0 +1,25 @@
+{
+  "name": "howditgo",
+  "description": "",
+  "dependencies": {
+    "isomorphic-fetch": "^2.2.1",
+    "next": "latest",
+    "react": "15.6.1",
+    "react-apollo": "1.4.8",
+    "react-dom": "15.6.1",
+    "recharts": "1.0.0-alpha.2"
+  },
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint **/*.js"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "eslint": "^4.3.0",
+    "eslint-config-prettier": "^2.3.0",
+    "eslint-plugin-prettier": "^2.1.2",
+    "prettier": "^1.5.3"
+  }
+}
