@@ -13,9 +13,7 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint **/*.js"
-  },
-  "scripts": {
+    "lint": "eslint **/*.js",
     "precommit": "lint-staged"
   },
   "lint-staged": {
