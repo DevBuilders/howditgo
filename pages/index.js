@@ -1,15 +1,17 @@
-import Head from 'next/head';
-import withData from '../lib/withData';
-import ApprenticeList from '../components/ApprenticeList';
-import ApprenticeReport from '../components/ApprenticeReport';
+import Head from "next/head";
+import withData from "../lib/withData";
+import ApprenticeList from "../components/ApprenticeList";
+import ApprenticeReport from "../components/ApprenticeReport";
 
 class MainApp extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { selectedApprentice: '' };
+    this.state = { selectedApprentice: "" };
   }
   setApprentice(event) {
-    this.setState({ selectedApprentice: event.target[event.target.selectedIndex].value });
+    this.setState({
+      selectedApprentice: event.target[event.target.selectedIndex].value
+    });
   }
   render() {
     return (
@@ -42,7 +44,7 @@ class MainApp extends React.Component {
         h1 {
           margin-left: 20px
         }
-        
+
       `}</style>
       </div>
     );
