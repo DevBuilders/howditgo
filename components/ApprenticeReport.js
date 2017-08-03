@@ -12,118 +12,127 @@ import {
   Legend
 } from "recharts";
 
-const parseOpinion = opinion => {
-  switch (opinion) {
-    case "Agree":
-      return 1;
-    case "Unsure":
-      return 0;
-    case "Disagree":
-      return -1;
+class ApprenticeReport extends React.Component {
+  parseOpinion() {
+    switch (opinion) {
+      case "Agree":
+        return 1;
+      case "Unsure":
+        return 0;
+      case "Disagree":
+        return -1;
+    }
   }
-};
 
-const ApprenticeReport = ({ apprenticeName, data }) => {
-  if (!apprenticeName) {
-    return null;
-  }
-  const ratings = data.allReviews.map(review => ({
-    surveyedAt: new Date(review.surveyedAt),
-    name: new Date(review.surveyedAt).toLocaleDateString(),
-    rating: review.rating,
-    pair: review.reviewerEmail
-  }));
-  const driving = data.allReviews.map(review => {
-    return {
+  ratings() {
+    return this.props.data.allReviews.map(review => ({
       surveyedAt: new Date(review.surveyedAt),
       name: new Date(review.surveyedAt).toLocaleDateString(),
-      driving: 100 - review.driving,
+      rating: review.rating,
       pair: review.reviewerEmail
-    };
-  });
-  const opinions = data.allReviews.map(review => ({
-    surveyedAt: new Date(review.surveyedAt),
-    name: new Date(review.surveyedAt).toLocaleDateString(),
-    engaged: parseOpinion(review.engaged),
-    growth: parseOpinion(review.grown),
-    learning: parseOpinion(review.learning),
-    opinions: parseOpinion(review.opinions)
-  }));
-  return (
-    <div>
-      <h2>
-        Report for {apprenticeName}
-      </h2>
-      <div className="reports">
-        <div className="report">
-          <LineChart
-            width={600}
-            height={300}
-            data={ratings}
-            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-          >
-            <XAxis dataKey="name" />
-            <YAxis domain={[0, 10]} />
-            <CartesianGrid strokeDasharray="3 3" />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="rating" stroke="#8884d8" />
-          </LineChart>
-        </div>
+    }));
+  }
+  driving() {
+    return this.props.data.allReviews.map(review => {
+      return {
+        surveyedAt: new Date(review.surveyedAt),
+        name: new Date(review.surveyedAt).toLocaleDateString(),
+        driving: 100 - review.driving,
+        pair: review.reviewerEmail
+      };
+    });
+  }
+  opinions() {
+    return this.props.data.allReviews.map(review => ({
+      surveyedAt: new Date(review.surveyedAt),
+      name: new Date(review.surveyedAt).toLocaleDateString(),
+      engaged: this.parseOpinion(review.engaged),
+      growth: this.parseOpinion(review.grown),
+      learning: this.parseOpinion(review.learning),
+      opinions: this.parseOpinion(review.opinions)
+    }));
+  }
+  render() {
+    const { apprenticeName, data } = this.props;
+    if (!apprenticeName) {
+      return null;
+    }
+    return (
+      <div>
+        <h2>
+          Report for {apprenticeName}
+        </h2>
+        <div className="reports">
+          <div className="report">
+            <LineChart
+              width={600}
+              height={300}
+              data={this.ratings()}
+              margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+            >
+              <XAxis dataKey="name" />
+              <YAxis domain={[0, 10]} />
+              <CartesianGrid strokeDasharray="3 3" />
+              <Tooltip />
+              <Legend />
+              <Line type="monotone" dataKey="rating" stroke="#8884d8" />
+            </LineChart>
+          </div>
 
-        <div className="report">
-          <LineChart
-            width={600}
-            height={300}
-            data={driving}
-            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-          >
-            <XAxis dataKey="name" />
-            <YAxis domain={[0, 100]} />
-            <CartesianGrid strokeDasharray="3 3" />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="driving" stroke="#8884d8" />
-          </LineChart>
-        </div>
+          <div className="report">
+            <LineChart
+              width={600}
+              height={300}
+              data={this.driving()}
+              margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+            >
+              <XAxis dataKey="name" />
+              <YAxis domain={[0, 100]} />
+              <CartesianGrid strokeDasharray="3 3" />
+              <Tooltip />
+              <Legend />
+              <Line type="monotone" dataKey="driving" stroke="#8884d8" />
+            </LineChart>
+          </div>
 
-        <div className="report">
-          <BarChart
-            width={600}
-            height={300}
-            data={opinions}
-            stackOffset="sign"
-            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-          >
-            <XAxis dataKey="name" />
-            <YAxis domain={[-4, 4]} />
-            <CartesianGrid strokeDasharray="3 3" />
-            <Tooltip />
-            <Legend />
-            <ReferenceLine y={0} stroke="#000" />
-            <Bar stackId="a" dataKey="engaged" fill="#8884d8" />
-            <Bar stackId="a" dataKey="growth" fill="#82ca9d" />
-            <Bar stackId="a" dataKey="learning" fill="#ffc658" />
-            <Bar stackId="a" dataKey="opinions" fill="#00C49F" />
-          </BarChart>
+          <div className="report">
+            <BarChart
+              width={600}
+              height={300}
+              data={this.opinions()}
+              stackOffset="sign"
+              margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+            >
+              <XAxis dataKey="name" />
+              <YAxis domain={[-4, 4]} />
+              <CartesianGrid strokeDasharray="3 3" />
+              <Tooltip />
+              <Legend />
+              <ReferenceLine y={0} stroke="#000" />
+              <Bar stackId="a" dataKey="engaged" fill="#8884d8" />
+              <Bar stackId="a" dataKey="growth" fill="#82ca9d" />
+              <Bar stackId="a" dataKey="learning" fill="#ffc658" />
+              <Bar stackId="a" dataKey="opinions" fill="#00C49F" />
+            </BarChart>
+          </div>
         </div>
+        <style jsx>{`
+          h2 {
+            text-align: center;
+          }
+          .reports {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            width: 98vw;
+            margin: 1vw;
+            justify-content: center;
+          }
+        `}</style>
       </div>
-      <style jsx>{`
-        h2 {
-          text-align: center;
-        }
-        .reports {
-          display: flex;
-          flex-direction: row;
-          flex-wrap: wrap;
-          width: 98vw;
-          margin: 1vw;
-          justify-content: center;
-        }
-      `}</style>
-    </div>
-  );
-};
+    );
+  }
+}
 
 const apprenticeReviews = gql`
   query($pair: String) {
