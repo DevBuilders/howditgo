@@ -11,9 +11,12 @@ import {
   Tooltip,
   Legend
 } from "recharts";
+import SurveyResult from "./SurveyResult";
 
 class ApprenticeReport extends React.Component {
-  parseOpinion() {
+  state = { surveys: [] };
+
+  parseOpinion(opinion) {
     switch (opinion) {
       case "Agree":
         return 1;
@@ -52,6 +55,23 @@ class ApprenticeReport extends React.Component {
       opinions: this.parseOpinion(review.opinions)
     }));
   }
+  handleClick = (data, index) => {
+    const surveys = this.state.surveys;
+    surveys.push(
+      <SurveyResult
+        key={this.props.data.allReviews[index].id}
+        removeSurvey={this.removeSurvey}
+        index={surveys.length}
+        props={this.props.data.allReviews[index]}
+      />
+    );
+    this.setState({ surveys });
+  };
+  removeSurvey = index => {
+    const surveys = this.state.surveys;
+    surveys.splice(index, 1);
+    this.setState({ surveys });
+  };
   render() {
     const { apprenticeName, data } = this.props;
     if (!apprenticeName) {
@@ -70,12 +90,17 @@ class ApprenticeReport extends React.Component {
               data={this.ratings()}
               margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
             >
-              <XAxis dataKey="name" />
+              <XAxis dataKey="name" onClick={this.handleClick.bind(this)} />
               <YAxis domain={[0, 10]} />
               <CartesianGrid strokeDasharray="3 3" />
               <Tooltip />
-              <Legend />
-              <Line type="monotone" dataKey="rating" stroke="#8884d8" />
+              <Legend verticalAlign="top" />
+              <Line
+                type="monotone"
+                dataKey="rating"
+                stroke="#8884d8"
+                strokeWidth={2}
+              />
             </LineChart>
           </div>
 
@@ -91,7 +116,12 @@ class ApprenticeReport extends React.Component {
               <CartesianGrid strokeDasharray="3 3" />
               <Tooltip />
               <Legend />
-              <Line type="monotone" dataKey="driving" stroke="#8884d8" />
+              <Line
+                type="monotone"
+                dataKey="driving"
+                stroke="#8884d8"
+                strokeWidth={2}
+              />
             </LineChart>
           </div>
 
@@ -114,6 +144,7 @@ class ApprenticeReport extends React.Component {
               <Bar stackId="a" dataKey="learning" fill="#ffc658" />
               <Bar stackId="a" dataKey="opinions" fill="#00C49F" />
             </BarChart>
+            {this.state.surveys}
           </div>
         </div>
         <style jsx>{`
@@ -137,6 +168,7 @@ class ApprenticeReport extends React.Component {
 const apprenticeReviews = gql`
   query($pair: String) {
     allReviews(filter: { pair: $pair }, orderBy: surveyedAt_ASC) {
+      id
       pair
       rating
       driving
@@ -147,6 +179,7 @@ const apprenticeReviews = gql`
       opinions
       reviewerEmail
       surveyedAt
+      feedback
     }
   }
 `;
