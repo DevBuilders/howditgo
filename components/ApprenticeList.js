@@ -1,12 +1,20 @@
 import { gql, graphql } from "react-apollo";
 
-const ApprenticeList = ({ setApprentice, data: { allReviews } }) => {
+const ApprenticeList = ({
+  setApprentice,
+  selectedApprentice,
+  data: { allReviews }
+}) => {
   const uniqueApprentices = new Set(allReviews.map(review => review.pair));
   const apprentices = [...uniqueApprentices, ""].reverse();
   return (
     <div className="apprentice-list">
       <label htmlFor="apprenticeList">Apprentice: </label>
-      <select onChange={setApprentice} name="apprenticeList">
+      <select
+        onChange={setApprentice}
+        defaultValue={selectedApprentice}
+        name="apprenticeList"
+      >
         {apprentices.map((apprentice, index) =>
           <option key={index}>
             {apprentice}
@@ -14,15 +22,15 @@ const ApprenticeList = ({ setApprentice, data: { allReviews } }) => {
         )}
       </select>
       <style jsx>{`
-        .apprentice-list {
-          margin-left: auto
-          margin-right: 25px
-          display: flex
-          flex-direction: row
-          -webkit-justify-content: flex-end
-          justify-content: flex-end
-        }
-      `}</style>
+          .apprentice-list {
+            margin-left: auto
+            margin-right: 25px
+            display: flex
+            flex-direction: row
+            -webkit-justify-content: flex-end
+            justify-content: flex-end
+          }
+        `}</style>
     </div>
   );
 };

@@ -62,7 +62,7 @@ class ApprenticeReport extends React.Component {
         key={this.props.data.allReviews[index].id}
         removeSurvey={this.removeSurvey}
         index={surveys.length}
-        props={this.props.data.allReviews[index]}
+        {...this.props.data.allReviews[index]}
       />
     );
     this.setState({ surveys });
@@ -74,7 +74,7 @@ class ApprenticeReport extends React.Component {
   };
   render() {
     const { apprenticeName, data } = this.props;
-    if (!apprenticeName) {
+    if (!apprenticeName || data.loading) {
       return null;
     }
     return (
@@ -178,6 +178,7 @@ const apprenticeReviews = gql`
       grown
       opinions
       reviewerEmail
+      previouslyPaired
       surveyedAt
       feedback
     }

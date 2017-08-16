@@ -28,6 +28,18 @@ export default class SurveyResults extends React.Component {
     this.setState({ showModal: true });
   };
 
+  formattedDate = date => {
+    if (date) {
+      const d = new Date(date);
+      const currDate = d.getDate();
+      const currMonth = d.getMonth() + 1;
+      const currYear = d.getFullYear();
+      return `${currMonth}/${currDate}/${currYear}`;
+    } else {
+      return "";
+    }
+  };
+
   render() {
     return (
       <div className="modal">
@@ -39,12 +51,55 @@ export default class SurveyResults extends React.Component {
         >
           <div className="survey">
             <h3>
-              Survey for {this.props.pair}
+              Survey for {this.props.pair} -
+              {this.formattedDate(this.props.surveyedAt)}
             </h3>
+            <h4>
+              Reviewer: {this.props.reviewerEmail}
+            </h4>
+            <div className="commentGrid">
+              <dt>Feedback</dt>
+              <dd>
+                {this.props.feedback}
+              </dd>
+              <dt>Additional Comments</dt>
+              <dd>
+                {this.props.addedComments ? this.props.addedComments : "NONE"}
+              </dd>
+              <dt>Rate the pairing session (1-10)</dt>
+              <dd>
+                {this.props.rating}
+              </dd>
+              <dt>How much was the apprentice driving (1%-100%)?</dt>
+              <dd>
+                {100 - this.props.driving}%
+              </dd>
+              <dt>Have they paired before?</dt>
+              <dd>
+                {this.props.previouslyPaired ? "Yes" : "No"}
+              </dd>
+              <dt>Have they grown?</dt>
+              <dd>
+                {this.props.grown}
+              </dd>
+              <dt>Are they engaged?</dt>
+              <dd>
+                {this.props.engaged}
+              </dd>
+              <dt>Are they giving opinions?</dt>
+              <dd>
+                {this.props.opinions}
+              </dd>
+              <dt>Are they learning from your sessions?</dt>
+              <dd>
+                {this.props.learning}
+              </dd>
+            </div>
           </div>
         </Modal>
         <style jsx>{`
-          h3 {
+          h3,
+          h4 {
             text-align: center;
           }
           .survey {
@@ -57,6 +112,17 @@ export default class SurveyResults extends React.Component {
             box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
             padding: 20px;
             outline: none;
+          }
+          .commentGrid {
+            display: grid;
+            grid-template-columns: 20% 80%;
+            grid-row-gap: 15px;
+          }
+          dt {
+            columns: 1;
+          }
+          dd {
+            columns: 1;
           }
         `}</style>
       </div>
