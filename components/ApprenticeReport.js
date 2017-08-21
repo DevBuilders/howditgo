@@ -111,11 +111,11 @@ class ApprenticeReport extends React.Component {
               data={this.driving()}
               margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
             >
-              <XAxis dataKey="name" />
+              <XAxis dataKey="name" onClick={this.handleClick.bind(this)} />
               <YAxis domain={[0, 100]} />
               <CartesianGrid strokeDasharray="3 3" />
               <Tooltip />
-              <Legend />
+              <Legend verticalAlign="top" />
               <Line
                 type="monotone"
                 dataKey="driving"
@@ -133,7 +133,7 @@ class ApprenticeReport extends React.Component {
               stackOffset="sign"
               margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
             >
-              <XAxis dataKey="name" />
+              <XAxis dataKey="name" onClick={this.handleClick.bind(this)} />
               <YAxis domain={[-4, 4]} />
               <CartesianGrid strokeDasharray="3 3" />
               <Tooltip />
