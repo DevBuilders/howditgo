@@ -55,14 +55,17 @@ class ApprenticeReport extends React.Component {
       opinions: this.parseOpinion(review.opinions)
     }));
   }
+  handleLineClick = (data, index) => {
+    debugger;
+  };
   handleClick = (data, index) => {
     const surveys = this.state.surveys;
     surveys.push(
       <SurveyResult
-        key={this.props.data.allReviews[index].id}
+        key={this.props.data.allReviews[data.index].id}
         removeSurvey={this.removeSurvey}
         index={surveys.length}
-        {...this.props.data.allReviews[index]}
+        {...this.props.data.allReviews[data.index]}
       />
     );
     this.setState({ surveys });
@@ -100,6 +103,7 @@ class ApprenticeReport extends React.Component {
                 dataKey="rating"
                 stroke="#8884d8"
                 strokeWidth={2}
+                onClick={this.handleLineClick.bind(this)}
               />
             </LineChart>
           </div>
@@ -181,6 +185,7 @@ const apprenticeReviews = gql`
       previouslyPaired
       surveyedAt
       feedback
+      addedComments
     }
   }
 `;
